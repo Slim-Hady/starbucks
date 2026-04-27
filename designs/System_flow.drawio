@@ -1,0 +1,89 @@
+<mxfile host="65bd71144e">
+    <diagram id="bjeknghhpVFZvzx4evd0" name="Page-1">
+        <mxGraphModel dx="633" dy="596" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="Client / HTTP Request" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4D4D4D;strokeColor=#333333;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontStyle=1;fontSize=14;" parent="1" vertex="1">
+                    <mxGeometry x="380" y="40" width="240" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;strokeColor=#666666;" parent="1" source="2" target="4" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="&lt;b&gt;Routes layer — express Router&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#90EE90&quot;&gt;/api/products /api/orders /api/users /api/categories&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#006600;strokeColor=#004d00;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontSize=14;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="180" y="130" width="640" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="Controllers — handle req/res, call services or models" style="text;html=1;align=center;verticalAlign=middle;fontSize=12;fontColor=#AAAAAA;" parent="1" vertex="1">
+                    <mxGeometry x="380" y="225" width="300" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="&lt;font style=&quot;color: rgb(255, 255, 255);&quot;&gt;&lt;b&gt;ProductController&lt;/b&gt;&lt;br&gt;&lt;/font&gt;getAll • getOne • create • update • delete" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4A2C8A;strokeColor=#2E1A5E;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="260" width="180" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="&lt;b&gt;&lt;font style=&quot;color: rgb(255, 255, 255);&quot;&gt;OrderController&lt;/font&gt;&lt;/b&gt;&lt;br&gt;getAll • getOne • create • update • delete" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4A2C8A;strokeColor=#2E1A5E;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="300" y="260" width="180" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="&lt;b&gt;&lt;font style=&quot;color: rgb(255, 255, 255);&quot;&gt;UserController&lt;/font&gt;&lt;/b&gt;&lt;br&gt;register • login • getAll • delete" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4A2C8A;strokeColor=#2E1A5E;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="520" y="260" width="180" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="9" value="&lt;font style=&quot;color: rgb(255, 255, 255);&quot;&gt;&lt;b&gt;Category&lt;/b&gt;&lt;br&gt;&lt;/font&gt;CRUD" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4A2C8A;strokeColor=#2E1A5E;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontSize=14;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="740" y="260" width="140" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;" parent="1" source="4" target="6" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="260" y="210"/>
+                            <mxPoint x="170" y="210"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;" parent="1" source="4" target="7" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;" parent="1" source="4" target="8" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;" parent="1" source="4" target="9" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="740" y="210"/>
+                            <mxPoint x="810" y="210"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="14" value="Models — Mongoose schemas &amp; types" style="text;html=1;align=center;verticalAlign=middle;fontSize=12;fontColor=#AAAAAA;" parent="1" vertex="1">
+                    <mxGeometry x="380" y="380" width="250" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="15" value="&lt;b&gt;Product&lt;/b&gt;&lt;br&gt;name • price • description&lt;br&gt;image • category • size • isAvailable" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#8B4513;strokeColor=#5C2F0D;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="410" width="180" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="16" value="&lt;b&gt;Order&lt;/b&gt;&lt;br&gt;user • items[] • totalPrice&lt;br&gt;status • createdAt" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#8B4513;strokeColor=#5C2F0D;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="300" y="410" width="180" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="17" value="&lt;b&gt;User&lt;/b&gt;&lt;br&gt;name • email • password&lt;br&gt;role • createdAt" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#8B4513;strokeColor=#5C2F0D;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="520" y="410" width="180" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="18" value="&lt;b&gt;Category&lt;/b&gt;&lt;br&gt;name&lt;br&gt;description" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#8B4513;strokeColor=#5C2F0D;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="740" y="410" width="140" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;" parent="1" source="6" target="15" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;" parent="1" source="7" target="16" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;" parent="1" source="8" target="17" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;" parent="1" source="9" target="18" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#666666;" parent="1" source="16" target="24" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="24" value="&lt;b&gt;MongoDB — Collections&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#90EE90&quot;&gt;products • orders • users • categories&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#006600;strokeColor=#004d00;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontSize=14;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="180" y="550" width="640" height="80" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
