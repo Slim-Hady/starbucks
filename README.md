@@ -3,13 +3,7 @@
 ## Download the depndancy : 
 
 ```
-npm install
-```
-
-## init TS : 
-
-```
-npx tsc --init
+npm i && npx tsc --init
 ```
 
 ## Start the server : 
