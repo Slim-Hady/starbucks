@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import {app} from './app';
 import mongoose from 'mongoose';
+
 const PORT = process.env.PORT || 3001;
 const DB = process.env.DATABASE;
 
