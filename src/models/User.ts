@@ -7,7 +7,12 @@ const UserSchema = new Schema({
         type : String,
         required : [true , "User name must be filled"],
         trim : true,
-        validate : [validator.isAlpha , "User name must be only a character"]
+        validate: {
+            validator: function(v) {
+                return /^[a-zA-Z0-9_]+$/.test(v);
+            },
+            message: props => `${props.value} is not a valid username. Use only letters, numbers, and underscores.`
+        }
     },
     email :{
         type : String,
