@@ -3,7 +3,7 @@ import {app} from './app';
 import mongoose from 'mongoose';
 
 const PORT = process.env.PORT || 3001;
-const DB = process.env.DATABASE;
+const DB = process.env.DATABASE || process.env.DATABASE_LOCAL;
 
 mongoose.connect(DB!)
 .then(() => console.log("Connect with database"))

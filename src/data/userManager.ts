@@ -3,11 +3,11 @@ import users from './users.json';
 import mongoose from 'mongoose';
 import 'dotenv/config';
 
-const mongoUri = process.env.DATABASE || 'mongodb://localhost:27017/starbucks';
+const mongoUri = process.env.DATABASE || process.env.DATABASE_LOCAL;
 
 async function connectDB() {
     if (mongoose.connection.readyState === 0) {
-        await mongoose.connect(mongoUri);
+        await mongoose.connect(mongoUri!);
         console.log('Connected to MongoDB');
     }
 }

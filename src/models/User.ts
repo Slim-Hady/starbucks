@@ -1,5 +1,6 @@
 import {Schema , model} from 'mongoose';
 
+import slugify from 'slugify';
 import validator from 'validator';
 
 const UserSchema = new Schema({
@@ -12,7 +13,8 @@ const UserSchema = new Schema({
                 return /^[a-zA-Z0-9_]+$/.test(v);
             },
             message: props => `${props.value} is not a valid username. Use only letters, numbers, and underscores.`
-        }
+        },
+        unique: true
     },
     email :{
         type : String,
@@ -39,8 +41,14 @@ const UserSchema = new Schema({
     },
     createdAt : {
         type : Date,
-        default: Date.now()
-    }
+        default: Date.now
+    },
+    slug: String
 })
+
+
+UserSchema.pre('save',function() {
+    this.slug =slugify(this.name , {lower:true});
+});
 
 export const User = model('User', UserSchema);

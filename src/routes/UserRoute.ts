@@ -1,7 +1,12 @@
+import { request } from "node:http";
 import * as UserController from "../controller/UserController";
 
 import express from 'express';
 const router = express.Router();
+
+router.param("id" , UserController.checkValidID);
+router.param("id" , UserController.checkExistID);
+
 
 router.route('/')
   .get(UserController.getAllUsers)
