@@ -1,6 +1,7 @@
 import express from 'express';
 
 import * as ProductController from '../controller/ProductController';
+import { protect, restrictTo } from '../middleware/authMiddleware';
 
 const router = express.Router();
 
@@ -9,11 +10,11 @@ router.param('id', ProductController.checkExistID);
 
 router.route('/')
     .get(ProductController.getAllProducts)
-    .post(ProductController.CreateProduct);
+    .post(protect, restrictTo('Admin'), ProductController.CreateProduct);
 
 router.route('/:id')
     .get(ProductController.getProduct)
-    .patch(ProductController.UpdateProduct)
-    .delete(ProductController.DeleteProduct);
+    .patch(protect, restrictTo('Admin'), ProductController.UpdateProduct)
+    .delete(protect, restrictTo('Admin'), ProductController.DeleteProduct);
 
 export default router;

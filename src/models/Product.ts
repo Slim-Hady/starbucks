@@ -1,7 +1,19 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model, Types } from 'mongoose';
 import slugify from 'slugify';
 
-const ProductSchema = new Schema({
+export interface IProduct {
+    name: string;
+    price: number;
+    description: string;
+    image: string;
+    category: Types.ObjectId;
+    sizes: string[];
+    isAvailable: boolean;
+    createdAt?: Date;
+    slug?: string;
+}
+
+const ProductSchema = new Schema<IProduct>({
     name: {
         type: String,
         required: [true, 'Product name must be filled'],
@@ -46,4 +58,4 @@ ProductSchema.pre('save', function () {
     this.slug = slugify(this.name, { lower: true });
 });
 
-export const Product = model('Product', ProductSchema);
+export const Product = model<IProduct>('Product', ProductSchema);

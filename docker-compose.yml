@@ -1,0 +1,20 @@
+services:
+  app:
+    build: .
+    ports:
+      - '3001:3001'
+    environment:
+      PORT: 3001
+      DATABASE_LOCAL: mongodb://mongo:27017/starbucks
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:7
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:

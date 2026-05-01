@@ -2,6 +2,7 @@ import { User } from '../models/User';
 import users from './users.json';
 import mongoose from 'mongoose';
 import 'dotenv/config';
+import bcrypt from 'bcryptjs';
 
 const mongoUri = process.env.DATABASE_LOCAL;
 
@@ -15,7 +16,14 @@ async function connectDB() {
 async function importUsers() {
     await connectDB();
     try {
-        await User.insertMany(users, { ordered: false });
+        const hashedUsers = await Promise.all(
+            users.map(async (user) => ({
+                ...user,
+                password: await bcrypt.hash(user.password, 12),
+            }))
+        );
+
+        await User.insertMany(hashedUsers, { ordered: false });
         console.log(`${users.length} users imported successfully`);
     } catch (error: any) {
         if (error.code === 11000) {

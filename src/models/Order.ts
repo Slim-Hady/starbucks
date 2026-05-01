@@ -1,6 +1,22 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model, Types } from 'mongoose';
 
-const OrderItemSchema = new Schema({
+export interface IOrderItem {
+    product: Types.ObjectId;
+    size: string;
+    quantity: number;
+    price: number;
+}
+
+export interface IOrder {
+    user: Types.ObjectId;
+    items: IOrderItem[];
+    totalPrice: number;
+    status: 'Pending' | 'Processing' | 'Completed' | 'Cancelled';
+    createdAt?: Date;
+    updatedAt?: Date;
+}
+
+const OrderItemSchema = new Schema<IOrderItem>({
     product: {
         type: Schema.Types.ObjectId,
         ref: 'Product',
@@ -21,7 +37,7 @@ const OrderItemSchema = new Schema({
     },
 });
 
-const OrderSchema = new Schema({
+const OrderSchema = new Schema<IOrder>({
     user: {
         type: Schema.Types.ObjectId,
         ref: 'User',
@@ -57,4 +73,4 @@ OrderSchema.pre('save', function () {
     this.updatedAt = new Date();
 });
 
-export const Order = model('Order', OrderSchema);
+export const Order = model<IOrder>('Order', OrderSchema);
