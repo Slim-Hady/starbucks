@@ -53,7 +53,9 @@ class APIFeature<T> {
 
 		return this;
 	}
-
+    mergeSort(){
+        
+    }
 	limitFields() {
 		/*
 		user writes some fields he want to see only so first if he writes fields = {fields} so we

@@ -3,7 +3,7 @@ import users from './users.json';
 import mongoose from 'mongoose';
 import 'dotenv/config';
 
-const mongoUri = process.env.DATABASE || process.env.DATABASE_LOCAL;
+const mongoUri = process.env.DATABASE_LOCAL;
 
 async function connectDB() {
     if (mongoose.connection.readyState === 0) {
