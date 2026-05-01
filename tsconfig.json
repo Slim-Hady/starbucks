@@ -4,10 +4,13 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "ignoreDeprecations": "6.0",
     "sourceMap": true,
     "outDir": "dist",
     "rootDir": "src",
-    "lib": ["es2015"]
+    "lib": ["es2015"],
+    "types": ["node"]
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]
