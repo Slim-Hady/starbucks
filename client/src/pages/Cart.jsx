@@ -1,11 +1,50 @@
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../hooks/useCart';
+import { useAuthContext } from '../context/AuthContext';
+import api from '../services/api';
 
 export default function Cart() {
   const { items, removeItem, updateQuantity, cartTotal, clearCart } = useCart();
+  const { user } = useAuthContext();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const TAX_RATE = 0.08;
   const tax = cartTotal * TAX_RATE;
   const total = cartTotal + tax;
+
+  const handleCheckout = async () => {
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+    
+    setLoading(true);
+    setError('');
+    
+    try {
+      const orderItems = items.map(item => ({
+        product: item._id || item.id,
+        size: item.size || 'Grande',
+        quantity: item.quantity,
+        price: item.unitPrice,
+      }));
+      
+      await api.createOrder({
+        items: orderItems,
+        totalPrice: total,
+      });
+      
+      clearCart();
+      alert('Order placed successfully!');
+      navigate('/');
+    } catch (err) {
+      setError(err.message || 'Failed to place order. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   if (items.length === 0) {
     return (
@@ -59,8 +98,17 @@ export default function Cart() {
           <div className="flex justify-between text-lg font-black text-sb-dark border-t pt-4 mb-6">
             <span>Total</span><span>${total.toFixed(2)}</span>
           </div>
-          <button className="w-full bg-sb-green hover:bg-sb-dark text-white font-black py-4 rounded-pill text-base transition mb-3">
-            Proceed to Checkout
+          {error && (
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 text-sm">
+              {error}
+            </div>
+          )}
+          <button 
+            onClick={handleCheckout} 
+            disabled={loading}
+            className="w-full bg-sb-green hover:bg-sb-dark text-white font-black py-4 rounded-pill text-base transition mb-3 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {loading ? 'Processing...' : 'Proceed to Checkout'}
           </button>
           <button onClick={clearCart} className="w-full text-gray-400 hover:text-red-500 text-sm transition">Clear cart</button>
         </div>

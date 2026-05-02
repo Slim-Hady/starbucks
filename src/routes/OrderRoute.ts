@@ -12,6 +12,9 @@ router.route('/')
     .get(protect, restrictTo('Admin'), OrderController.getAllOrders)
     .post(protect, OrderController.CreateOrder);
 
+router.route('/my-orders')
+    .get(protect, OrderController.getMyOrders);
+
 router.route('/:id')
     .get(protect, restrictTo('Admin'), OrderController.getOrder)
     .patch(protect, restrictTo('Admin'), OrderController.UpdateOrder)

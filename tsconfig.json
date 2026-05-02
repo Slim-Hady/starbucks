@@ -10,8 +10,8 @@
     "outDir": "dist",
     "rootDir": "src",
     "lib": ["es2015"],
-    "types": ["node", "jest"]
+    "types": ["node"]
   },
-  "include": ["src/**/*", "test/**/*"],
-  "exclude": ["node_modules"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "test/**/*", "dist/**/*"]
 }

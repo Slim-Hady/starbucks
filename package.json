@@ -13,7 +13,8 @@
     "data:import": "ts-node src/data/userManager.ts import",
     "data:update": "ts-node src/data/userManager.ts update",
     "data:delete": "ts-node src/data/userManager.ts delete",
-    "data:deleteAll": "ts-node src/data/userManager.ts deleteAll"
+    "data:deleteAll": "ts-node src/data/userManager.ts deleteAll",
+    "seed": "ts-node seed.ts"
   },
   "repository": {
     "type": "git",
@@ -47,8 +48,10 @@
     "typescript": "^6.0.3"
   },
   "dependencies": {
+    "@types/cors": "^2.8.19",
     "bcryptjs": "^3.0.3",
     "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",

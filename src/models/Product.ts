@@ -7,6 +7,7 @@ export interface IProduct {
     description: string;
     image: string;
     category: Types.ObjectId;
+    categoryName?: string;
     sizes: string[];
     isAvailable: boolean;
     createdAt?: Date;
@@ -39,6 +40,10 @@ const ProductSchema = new Schema<IProduct>({
         ref: 'Category',
         required: [true, 'Product category must be filled'],
     },
+    categoryName: {
+        type: String,
+        default: '',
+    },
     sizes: {
         type: [String],
         default: [],
@@ -55,7 +60,7 @@ const ProductSchema = new Schema<IProduct>({
 });
 
 ProductSchema.pre('save', function () {
-    this.slug = slugify(this.name, { lower: true });
+    this.slug = slugify(this.name || '', { lower: true });
 });
 
 export const Product = model<IProduct>('Product', ProductSchema);

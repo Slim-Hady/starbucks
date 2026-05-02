@@ -45,6 +45,9 @@ export default function Navbar() {
 
           {isLoggedIn ? (
             <div className="hidden md:flex items-center gap-3">
+              {user.role === 'Admin' && (
+                <Link to="/admin" className="text-sm font-bold text-sb-dark hover:text-sb-green">Admin</Link>
+              )}
               <span className="text-sm font-bold text-sb-dark">Hi, {user.name.split(' ')[0]}</span>
               <button onClick={handleLogout} className="border-2 border-sb-green text-sb-green font-bold text-sm px-4 py-1.5 rounded-pill hover:bg-sb-green hover:text-white transition">Sign Out</button>
             </div>

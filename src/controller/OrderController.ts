@@ -24,6 +24,21 @@ export const getAllOrders = async (req: Request, res: Response) => {
     }
 };
 
+export const getMyOrders = async (req: Request, res: Response) => {
+    try {
+        const userId = (req as any).user?._id || (req as any).user?.id;
+        const orders = await Order.find({ user: userId }).populate('items.product');
+
+        res.status(200).json({
+            status: 'Success get my orders',
+            result: orders.length,
+            data: { orders },
+        });
+    } catch (err: any) {
+        res.status(500).json({ status: 'Failed', message: err.message });
+    }
+};
+
 export const getOrder = async (req: Request, res: Response) => {
     try {
         const order = (req as any).order;
@@ -39,7 +54,12 @@ export const getOrder = async (req: Request, res: Response) => {
 
 export const CreateOrder = async (req: Request, res: Response) => {
     try {
-        const order = await Order.create(req.body);
+        const userId = (req as any).user?._id || (req as any).user?.id;
+        const orderData = {
+            ...req.body,
+            user: userId,
+        };
+        const order = await Order.create(orderData);
 
         res.status(201).json({
             status: 'Success create order',
