@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: starbucks-backend
+    env: node
+    region: oregon
+    buildCommand: npm run build
+    startCommand: npm run start
+    envVars:
+      - key: DATABASE
+        value: your_mongodb_atlas_connection_string
+      - key: JWT_SECRET
+        value: your_jwt_secret
+      - key: CLIENT_URL
+        value: https://your-vercel-app.vercel.app
+      - key: PORT
+        value: 3002
+      - key: STRIPE_SECRET_KEY
+        value: your_stripe_key
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: JWT_COOKIE_EXPIRES_IN
+        value: 7
+
+  - type: web
+    name: starbucks-frontend
+    env: static
+    region: oregon
+    buildCommand: cd client && npm install && npm run build
+    outputDir: client/dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://your-render-app.onrender.com/api/v1

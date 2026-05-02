@@ -1,18 +1,33 @@
+version: '3.8'
+
 services:
-  app:
+  frontend:
+    build: ./client
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+  backend:
     build: .
     ports:
-      - '3001:3001'
+      - "3002:3002"
     environment:
-      PORT: 3001
-      DATABASE_LOCAL: mongodb://mongo:27017/starbucks
+      - PORT=3002
+      - DATABASE=${DATABASE}
+      - DATABASE_LOCAL=mongodb://mongo:27017/starbucks
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - CLIENT_URL=http://localhost
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_EXPIRES_IN=${JWT_EXPIRES_IN}
+      - JWT_COOKIE_EXPIRES_IN=${JWT_COOKIE_EXPIRES_IN}
     depends_on:
       - mongo
 
   mongo:
     image: mongo:7
     ports:
-      - '27017:27017'
+      - "27017:27017"
     volumes:
       - mongo-data:/data/db
 
