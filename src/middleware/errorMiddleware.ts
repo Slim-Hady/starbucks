@@ -33,6 +33,14 @@ export const globalErrorHandler = (err: any, req: Request, res: Response, next: 
     err.statusCode = err.statusCode || 500;
     err.status = err.status || 'error';
 
+    if (err.code === 11000) {
+        const field = Object.keys(err.keyPattern)[0];
+        const value = err.keyValue[field];
+        err.message = `A user with this ${field} already exists`;
+        err.statusCode = 400;
+        err.isOperational = true;
+    }
+
     if (process.env.NODE_ENV === 'development') {
         sendErrorDev(err, res);
     } else {

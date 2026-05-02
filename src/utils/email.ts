@@ -14,6 +14,9 @@ class Email {
     }
 
     newTransport() {
+        if (!process.env.EMAIL_HOST || !process.env.EMAIL_USERNAME) {
+            return null;
+        }
         return nodemailer.createTransport({
             host: process.env.EMAIL_HOST,
             port: Number(process.env.EMAIL_PORT) || 587,
@@ -25,6 +28,11 @@ class Email {
     }
 
     async send(subject: string, html: string) {
+        const transport = this.newTransport();
+        if (!transport) {
+            console.log('Email skipped: SMTP not configured');
+            return;
+        }
         const mailOptions = {
             from: this.from,
             to: this.to,
@@ -32,7 +40,7 @@ class Email {
             html,
         };
 
-        await this.newTransport().sendMail(mailOptions);
+        await transport.sendMail(mailOptions);
     }
 
     async sendWelcome() {
