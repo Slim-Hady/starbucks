@@ -10,6 +10,7 @@ export default function Categories() {
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
     const [editingCategory, setEditingCategory] = useState(null);
+    const [sortOrder, setSortOrder] = useState('asc');
     const [formData, setFormData] = useState({ name: '', description: '' });
 
     useEffect(() => {
@@ -90,8 +91,25 @@ export default function Categories() {
             </div>
 
             <div className="max-w-7xl mx-auto px-4 py-8">
+                <div className="flex justify-between items-center mb-6">
+                    <h2 className="text-2xl font-bold text-gray-800">Categories List</h2>
+                    <div className="flex items-center gap-2">
+                        <label className="text-sm font-medium text-gray-700">Sort:</label>
+                        <select
+                            value={sortOrder}
+                            onChange={(e) => setSortOrder(e.target.value)}
+                            className="px-3 py-1 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        >
+                            <option value="asc">A-Z</option>
+                            <option value="desc">Z-A</option>
+                        </select>
+                    </div>
+                </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {categories.map((category) => (
+                    {[...categories].sort((a, b) => {
+                        const comparison = a.name.localeCompare(b.name);
+                        return sortOrder === 'asc' ? comparison : -comparison;
+                    }).map((category) => (
                         <div key={category._id} className="bg-white rounded-lg shadow p-6">
                             <div className="flex justify-between items-start mb-4">
                                 <div>

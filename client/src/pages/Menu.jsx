@@ -14,6 +14,7 @@ export default function Menu() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [visible, setVisible] = useState(false);
+    const [sortOrder, setSortOrder] = useState('asc');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -43,17 +44,22 @@ export default function Menu() {
         return () => clearTimeout(timer);
     }, [activeCategory, query]);
 
-    const filteredProducts = products.filter((product) => {
-        if (activeCategory !== 'all' && product.categoryName !== activeCategory) return false;
-        if (query) {
-            const searchLower = query.toLowerCase();
-            return (
-                product.name.toLowerCase().includes(searchLower) ||
-                (product.description && product.description.toLowerCase().includes(searchLower))
-            );
-        }
-        return true;
-    });
+    const filteredProducts = products
+        .filter((product) => {
+            if (activeCategory !== 'all' && product.categoryName !== activeCategory) return false;
+            if (query) {
+                const searchLower = query.toLowerCase();
+                return (
+                    product.name.toLowerCase().includes(searchLower) ||
+                    (product.description && product.description.toLowerCase().includes(searchLower))
+                );
+            }
+            return true;
+        })
+        .sort((a, b) => {
+            const comparison = a.name.localeCompare(b.name);
+            return sortOrder === 'asc' ? comparison : -comparison;
+        });
 
     const handleCategory = (id) => setActiveCategory(id);
 
@@ -104,8 +110,18 @@ export default function Menu() {
                             </button>
                         ))}
                     </div>
-                    <div className="w-full sm:w-64 ml-auto">
-                        <SearchBar onSearch={setQuery} />
+                    <div className="flex gap-3 w-full sm:w-auto sm:ml-auto">
+                        <select
+                            value={sortOrder}
+                            onChange={(e) => setSortOrder(e.target.value)}
+                            className="px-3 py-2 border border-gray-300 rounded-lg text-sm font-medium bg-white hover:border-sb-green focus:ring-2 focus:ring-sb-green focus:border-transparent"
+                        >
+                            <option value="asc">A-Z</option>
+                            <option value="desc">Z-A</option>
+                        </select>
+                        <div className="w-full sm:w-64">
+                            <SearchBar onSearch={setQuery} />
+                        </div>
                     </div>
                 </div>
             </div>

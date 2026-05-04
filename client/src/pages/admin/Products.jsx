@@ -11,6 +11,7 @@ export default function Products() {
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
     const [editingProduct, setEditingProduct] = useState(null);
+    const [sortOrder, setSortOrder] = useState('asc');
     const [formData, setFormData] = useState({
         name: '',
         description: '',
@@ -114,6 +115,19 @@ export default function Products() {
 
             <div className="max-w-7xl mx-auto px-4 py-8">
                 <div className="bg-white rounded-lg shadow overflow-hidden">
+                    <div className="px-6 py-4 border-b border-gray-200 flex justify-end">
+                        <div className="flex items-center gap-2">
+                            <label className="text-sm font-medium text-gray-700">Sort:</label>
+                            <select
+                                value={sortOrder}
+                                onChange={(e) => setSortOrder(e.target.value)}
+                                className="px-3 py-1 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                            >
+                                <option value="asc">A-Z</option>
+                                <option value="desc">Z-A</option>
+                            </select>
+                        </div>
+                    </div>
                     <table className="min-w-full divide-y divide-gray-200">
                         <thead className="bg-gray-50">
                             <tr>
@@ -125,7 +139,10 @@ export default function Products() {
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-200">
-                            {products.map((product) => (
+                            {[...products].sort((a, b) => {
+                                const comparison = a.name.localeCompare(b.name);
+                                return sortOrder === 'asc' ? comparison : -comparison;
+                            }).map((product) => (
                                 <tr key={product._id} className="hover:bg-gray-50">
                                     <td className="px-6 py-4">
                                         <div className="flex items-center">
