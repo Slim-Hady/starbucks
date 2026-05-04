@@ -8,10 +8,10 @@ The Starbucks project is a full-stack e-commerce web application built with the 
 
 ## Project Overview
 
-Repository: Slim-Hady/starbucks
+Repository: Slim-Hady/starbucks 
+GitHub: https://github.com/Slim-Hady/starbucks
 Project Type: Full-Stack E-Commerce Application
-Current Version: 1.0.0
-Last Updated: May 4, 2024
+
 
 ### Architecture
 
@@ -558,11 +558,3 @@ Frontend Composition:
 - Services: 1 file (API client)
 - Data: 3 files (categories, menuItems, rewards)
 
----
-
-## Contact and Repository
-
-GitHub: https://github.com/Slim-Hady/starbucks
-Last Updated: May 4, 2024
-
-Report Generated: May 4, 2026 - 21:48 UTC+3

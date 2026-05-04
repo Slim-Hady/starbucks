@@ -2,7 +2,7 @@
 
 A full-stack MERN application for browsing, ordering, and managing Starbucks products with payment integration.
 
-## 🚀 Quick Start with Docker (Recommended)
+##  Quick Start with Docker 
 
 ### Prerequisites
 - Docker Desktop installed
@@ -37,7 +37,7 @@ Password: password123
 
 ---
 
-## 💻 Manual Setup (Local Development)
+##  Manual Setup (Local Development)
 
 ### 1. Download Dependencies
 
@@ -85,7 +85,7 @@ npm run dev
 
 ---
 
-## 📋 API Endpoints
+##  API Endpoints
 
 ### Authentication Routes
 - `POST /api/v1/auth/register` - Register new user
@@ -115,7 +115,7 @@ npm run dev
 
 ---
 
-## 🛠️ NPM Scripts
+##  NPM Scripts
 
 ```bash
 # Backend
@@ -134,7 +134,7 @@ npm run lint             # Run ESLint
 
 ---
 
-## 🏗️ Project Structure
+##  Project Structure
 
 ```
 starbucks/
@@ -158,7 +158,7 @@ starbucks/
 
 ---
 
-## 🐳 Docker Troubleshooting
+##  Docker Troubleshooting
 
 ### Check Docker Status
 ```bash
@@ -182,7 +182,7 @@ docker-compose up          # Will recreate fresh MongoDB
 
 ---
 
-## 🔐 Environment Variables
+##  Environment Variables
 
 | Variable | Description | Example |
 |----------|-------------|---------|
@@ -196,7 +196,7 @@ docker-compose up          # Will recreate fresh MongoDB
 
 ---
 
-## 🧪 Testing
+##  Testing
 
 ```bash
 npm test                   # Run all tests
@@ -205,7 +205,7 @@ npm run test:watch        # Run tests in watch mode
 
 ---
 
-## 📦 Technology Stack
+##  Technology Stack
 
 **Backend:** Node.js, Express.js, TypeScript, MongoDB, Mongoose, JWT, Stripe  
 **Frontend:** React, Vite, TailwindCSS, React Router, Context API  
@@ -213,7 +213,7 @@ npm run test:watch        # Run tests in watch mode
 
 ---
 
-## 📚 Additional Resources
+##  Additional Resources
 
 - See `DEPLOY.md` for cloud deployment instructions
 - See `client/README.md` for frontend-specific setup
@@ -221,7 +221,7 @@ npm run test:watch        # Run tests in watch mode
 
 ---
 
-## 📝 License
+##  License
 
 ISC
 
