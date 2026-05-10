@@ -46,6 +46,7 @@ import {
 } from '../../src/controller/ProductController';
 
 import { Product } from '../../src/models/Product';
+import { Category } from '../../src/models/Category';
 import APIFeature from '../../src/utils/APIFeature';
 
 jest.mock('../../src/models/Product', () => ({
@@ -58,9 +59,17 @@ jest.mock('../../src/models/Product', () => ({
     },
 }));
 
+jest.mock('../../src/models/Category', () => ({
+    Category: {
+        findOne: jest.fn(),
+        create: jest.fn(),
+    },
+}));
+
 jest.mock('../../src/utils/APIFeature', () => jest.fn());
 
 const mockedProduct = Product as jest.Mocked<typeof Product>;
+const mockedCategory = Category as jest.Mocked<typeof Category>;
 const MockedAPIFeature = APIFeature as unknown as jest.Mock;
 
 const createMockResponse = () => {
@@ -196,7 +205,7 @@ describe('ProductController', () => {
     });
 
     describe('CreateProduct', () => {
-        it('should create a new product with valid data', async () => {
+        it('should create a new product with valid ObjectId category', async () => {
             const req = {
                 body: {
                     name: 'Mocha',
@@ -219,6 +228,71 @@ describe('ProductController', () => {
             expect(res.status).toHaveBeenCalledWith(201);
         });
 
+        it('should create a new product with category name instead of ObjectId', async () => {
+            const req = {
+                body: {
+                    name: 'Latte',
+                    price: 4.99,
+                    description: 'Coffee with milk',
+                    image: 'https://example.com/latte.jpg',
+                    category: 'Latte', // Using category name
+                    sizes: ['small', 'medium'],
+                    isAvailable: true
+                }
+            } as unknown as Request;
+            const res = createMockResponse();
+            
+            // Mock Category.findOne to return a test category
+            const mockCategory = { _id: new mongoose.Types.ObjectId(), name: 'Latte' };
+            mockedCategory.findOne.mockResolvedValue(mockCategory as any);
+            
+            // Mock Product.create to return the created product
+            const createdProduct = { _id: new mongoose.Types.ObjectId(), ...req.body, category: mockCategory._id };
+            mockedProduct.create.mockResolvedValue(createdProduct as any);
+
+            await CreateProduct(req, res);
+
+            // Verify Category.findOne was called with the category name
+            expect(mockedCategory.findOne).toHaveBeenCalledWith({ name: 'Latte' });
+            // Verify Product.create was called with the ObjectId, not the string
+            expect(mockedProduct.create).toHaveBeenCalledWith({
+                ...req.body,
+                category: mockCategory._id
+            });
+            expect(res.status).toHaveBeenCalledWith(201);
+        });
+
+        it('should return 400 when category name does not exist', async () => {
+            const req = {
+                body: {
+                    name: 'Test Product',
+                    price: 4.99,
+                    description: 'A test product',
+                    image: 'https://example.com/product.jpg',
+                    category: 'NonExistentCategory', // This category doesn't exist
+                    sizes: ['small'],
+                    isAvailable: true
+                }
+            } as unknown as Request;
+            const res = createMockResponse();
+            
+            // Mock Category.findOne to return null (category not found)
+            mockedCategory.findOne.mockResolvedValue(null);
+
+            await CreateProduct(req, res);
+
+            // Verify Category.findOne was called
+            expect(mockedCategory.findOne).toHaveBeenCalledWith({ name: 'NonExistentCategory' });
+            // Verify Product.create was NOT called
+            expect(mockedProduct.create).not.toHaveBeenCalled();
+            // Verify error response
+            expect(res.status).toHaveBeenCalledWith(400);
+            expect(res.json).toHaveBeenCalledWith({
+                status: 'Failed',
+                message: 'Category with name \'NonExistentCategory\' not found',
+            });
+        });
+
         it('should handle creation errors', async () => {
             const req = { body: { name: 'Mocha' } } as unknown as Request;
             const res = createMockResponse();
@@ -232,7 +306,7 @@ describe('ProductController', () => {
     });
 
     describe('UpdateProduct', () => {
-        it('should update the current product', async () => {
+        it('should update the current product with valid data', async () => {
             const product = { _id: '507f1f77bcf86cd799439011', name: 'Latte', price: 4.99 };
             const req = { product, body: { price: 5.99 } } as unknown as Request;
             const res = createMockResponse();
@@ -247,6 +321,72 @@ describe('ProductController', () => {
                 { new: true, runValidators: true }
             );
             expect(res.status).toHaveBeenCalledWith(200);
+        });
+
+        it('should update product with category name instead of ObjectId', async () => {
+            const product = { _id: new mongoose.Types.ObjectId(), name: 'Original Product', price: 3.99 };
+            const req = { 
+                product, 
+                body: { 
+                    name: 'Updated Product',
+                    category: 'Latte' // Using category name
+                } 
+            } as unknown as Request;
+            const res = createMockResponse();
+            
+            // Mock Category.findOne to return a test category
+            const mockCategory = { _id: new mongoose.Types.ObjectId(), name: 'Latte' };
+            mockedCategory.findOne.mockResolvedValue(mockCategory as any);
+            
+            // Mock Product.findByIdAndUpdate to return the updated product
+            const updatedProduct = { 
+                ...product, 
+                name: 'Updated Product',
+                category: mockCategory._id 
+            };
+            mockedProduct.findByIdAndUpdate.mockResolvedValue(updatedProduct as any);
+
+            await UpdateProduct(req, res);
+
+            // Verify Category.findOne was called with the category name
+            expect(mockedCategory.findOne).toHaveBeenCalledWith({ name: 'Latte' });
+            // Verify Product.findByIdAndUpdate was called with the ObjectId, not the string
+            expect(mockedProduct.findByIdAndUpdate).toHaveBeenCalledWith(
+                product._id,
+                {
+                    name: 'Updated Product',
+                    category: mockCategory._id
+                },
+                { new: true, runValidators: true }
+            );
+            expect(res.status).toHaveBeenCalledWith(200);
+        });
+
+        it('should return 400 when updating with non-existent category name', async () => {
+            const product = { _id: new mongoose.Types.ObjectId(), name: 'Test Product', price: 4.99 };
+            const req = { 
+                product, 
+                body: { 
+                    category: 'NonExistentCategory' // This category doesn't exist
+                } 
+            } as unknown as Request;
+            const res = createMockResponse();
+            
+            // Mock Category.findOne to return null (category not found)
+            mockedCategory.findOne.mockResolvedValue(null);
+
+            await UpdateProduct(req, res);
+
+            // Verify Category.findOne was called
+            expect(mockedCategory.findOne).toHaveBeenCalledWith({ name: 'NonExistentCategory' });
+            // Verify Product.findByIdAndUpdate was NOT called
+            expect(mockedProduct.findByIdAndUpdate).not.toHaveBeenCalled();
+            // Verify error response
+            expect(res.status).toHaveBeenCalledWith(400);
+            expect(res.json).toHaveBeenCalledWith({
+                status: 'Failed',
+                message: 'Category with name \'NonExistentCategory\' not found',
+            });
         });
     });
 

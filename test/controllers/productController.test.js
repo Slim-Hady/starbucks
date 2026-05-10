@@ -59,6 +59,11 @@ jest.mock('../../src/models/Product', () => ({
     },
 }));
 jest.mock('../../src/utils/APIFeature', () => jest.fn());
+jest.mock('../../src/models/Category', () => ({
+    Category: {
+        findOne: jest.fn(),
+    },
+}));
 const mockedProduct = Product_1.Product;
 const MockedAPIFeature = APIFeature_1.default;
 const createMockResponse = () => {

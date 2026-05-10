@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 
 import APIFeature from '../utils/APIFeature';
 import { Product } from '../models/Product';
+import { Category } from '../models/Category';
 
 export const getAllProducts = async (req: Request, res: Response) => {
     try {
@@ -39,6 +40,23 @@ export const getProduct = async (req: Request, res: Response) => {
 
 export const CreateProduct = async (req: Request, res: Response) => {
     try {
+        // Handle category field - accept either ObjectId or category name
+        let categoryValue = req.body.category;
+        
+        // If category is provided as a string that's not a valid ObjectId, 
+        // try to find the category by name
+        if (categoryValue && typeof categoryValue === 'string' && !mongoose.Types.ObjectId.isValid(categoryValue)) {
+            const category = await Category.findOne({ name: categoryValue });
+            if (!category) {
+                return res.status(400).json({
+                    status: 'Failed',
+                    message: `Category with name '${categoryValue}' not found`,
+                });
+            }
+            // Replace category name with the actual ObjectId
+            req.body.category = category._id;
+        }
+        
         const product = await Product.create(req.body);
 
         res.status(201).json({
@@ -53,6 +71,26 @@ export const CreateProduct = async (req: Request, res: Response) => {
 export const UpdateProduct = async (req: Request, res: Response) => {
     try {
         const product = (req as any).product;
+        
+        // Handle category field - accept either ObjectId or category name
+        if (req.body.category) {
+            let categoryValue = req.body.category;
+            
+            // If category is provided as a string that's not a valid ObjectId, 
+            // try to find the category by name
+            if (typeof categoryValue === 'string' && !mongoose.Types.ObjectId.isValid(categoryValue)) {
+                const category = await Category.findOne({ name: categoryValue });
+                if (!category) {
+                    return res.status(400).json({
+                        status: 'Failed',
+                        message: `Category with name '${categoryValue}' not found`,
+                    });
+                }
+                // Replace category name with the actual ObjectId
+                req.body.category = category._id;
+            }
+        }
+        
         await Product.findByIdAndUpdate(product._id, req.body, {
             new: true,
             runValidators: true,
